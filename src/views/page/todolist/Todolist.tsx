@@ -6,20 +6,28 @@ type Props = {};
 
 const Todolist = (props: Props) => {
   const [taskValue, setTaskValue] = useState("");
-  // const [tas̵kValue, setTaskValue] = useState("");
+  const [searchValue,setSearchValue]= useState("");
+  console.log("🚀 ~ Todolist ~ searchValue:", searchValue)
   const [taskList, setTaskList] = useState<string[]>([]);
   const handleAddTask = () => {
     if (taskValue.trim() !== "") {
       // setTaskList((prevList) => [...prevList, taskValue.trim()]);
       setTaskList((prevList) => [...prevList, taskValue.trim()]);
-      setTaskValue(" ");
+      setTaskValue("");
     }
   };
+  // filtered value 
+  const filteredTasks = taskList.filter(task =>
+    task.toLowerCase().includes(searchValue.toLowerCase())
+  );
+  console.log("🚀 ~ Todolist ~ filteredTasks:", filteredTasks)
   return (
     <div>
       {/* header */}
       <div className="flex pt-4 justify-center">
-        <Input className="w-8/12" placeholder="search task" />
+        <Input className="w-8/12" placeholder="search task"  onChange={(e)=>{
+          setSearchValue(e.target.value);
+        }}/>
       </div>
       <div className="flex  h-full justify-center py-4">
         <div className="flex-1 flex flex-col  bg-gray-200">
@@ -38,7 +46,7 @@ const Todolist = (props: Props) => {
           </div>
         </div>
 
-        <ShowTasks tasklist = {taskList}  />
+        <ShowTasks tasklist = {filteredTasks}  />
       </div>
     </div>
   );
